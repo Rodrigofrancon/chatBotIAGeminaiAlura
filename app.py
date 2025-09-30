@@ -81,6 +81,7 @@ def bot(prompt):
                 mensagem_usuario += '\n utilize as caracteriscas da imagem enviada para suas respostas.'
                 arquivo_imagem = gerar_imagem_gemini(caminho_imagem_enviado)
                 resposta = chatbot.send_message([arquivo_imagem, mensagem_usuario])
+                os.remove(caminho_imagem_enviado)
                 caminho_imagem_enviado = None
             else:
                 resposta = chatbot.send_message(mensagem_usuario)
@@ -95,6 +96,10 @@ def bot(prompt):
             repeticao += 1
             if repeticao >= maximo_tentativas:
                 return "Erro no Gemini: %s" % erro
+            
+            if caminho_imagem_enviado:
+                os.remove(caminho_imagem_enviado)
+                caminho_imagem_enviado = None
             
             sleep(50)
 
