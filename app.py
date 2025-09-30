@@ -81,7 +81,7 @@ def bot(prompt):
                 mensagem_usuario += '\n utilize as caracteriscas da imagem enviada para suas respostas.'
                 arquivo_imagem = gerar_imagem_gemini(caminho_imagem_enviado)
                 resposta = chatbot.send_message([arquivo_imagem, mensagem_usuario])
-                caminha_imagem_enviado = None
+                caminho_imagem_enviado = None
             else:
                 resposta = chatbot.send_message(mensagem_usuario)
 
@@ -105,8 +105,9 @@ def upload_imagem():
     if 'imagem' in request.files:
         imagem_enviada = request.files['imagem']
         nome_arquivo = str(uuid.uuid4()) + os.path.splitext(imagem_enviada.filename)[1]
-        camiho_arquivo = os.path.join(UPLOAD_FOLDER, nome_arquivo)
-        imagem_enviada.save(camiho_arquivo)
+        caminho_arquivo = os.path.join(UPLOAD_FOLDER, nome_arquivo)
+        imagem_enviada.save(caminho_arquivo)
+        caminho_imagem_enviado = caminho_arquivo
         return 'Imagem enviada com sucesso', 200
     return 'Nenhum arquivo enviado', 400
 
